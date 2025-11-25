@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Зворотній зв'язок - Style & Tech</title>
+</head>
+<body>
+
+    <header>
+        <h1>Зворотній зв'язок</h1>
+        <nav>
+            <a href="index.html">На головну</a>
+        </nav>
+    </header>
+
+    <main>
+        <form action="#" method="post">
+            
+            <fieldset>
+                <legend>Персональна інформація</legend>
+                
+                <p>
+                    <label for="fullname">Прізвище та ім'я:</label><br>
+                    <input type="text" id="fullname" name="fullname" required>
+                </p>
+
+                <p>
+                    <label for="email">E-mail:</label><br>
+                    <input type="email" id="email" name="email" required>
+                </p>
+
+                <p>
+                    <label for="age">Вік:</label><br>
+                    <input type="number" id="age" name="age" min="1" max="120">
+                </p>
+
+                <p>
+                    <label>Освіта:</label><br>
+                    <input type="radio" id="full" name="education" value="full">
+                    <label for="full">Повна</label><br>
+                    <input type="radio" id="partial" name="education" value="partial">
+                    <label for="partial">Неповна</label><br>
+                    <input type="radio" id="higher" name="education" value="higher">
+                    <label for="higher">Вища</label><br>
+                    <input type="radio" id="professional" name="education" value="professional">
+                    <label for="professional">Професійна</label>
+                </p>
+            </fieldset>
+
+            <p>
+                <label for="purpose">Мета звернення:</label><br>
+                <select id="purpose" name="purpose">
+                    <option value="cooperation">Співпраця</option>
+                    <option value="complaint">Скарга на порушення права власності</option>
+                    <option value="proposal">Пропозиція</option>
+                    <option value="error">Наявність помилки</option>
+                </select>
+            </p>
+
+            <p>
+                <label for="details">Детально:</label><br>
+                <textarea id="details" name="details" rows="5" cols="40" maxlength="500" placeholder="Введіть текст (до 500 символів)"></textarea>
+            </p>
+
+            <p>
+                <input type="checkbox" id="consent" name="consent" required>
+                <label for="consent">Даю згоду на обробку інформації</label>
+            </p>
+
+            <p>
+                <input type="submit" value="Відправити">
+                <input type="reset" value="Очистити">
+            </p>
+
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Інтернет-магазин "Style & Tech"</p>
+    </footer>
+
+</body>
+</html>
