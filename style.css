@@ -179,3 +179,84 @@ input[type="submit"]:hover {
 label + input {
     margin-bottom: 10px;
 }
+
+header.main-header {
+    position: relative; 
+    overflow: hidden;   
+}
+
+.falling-item {
+    position: absolute;
+    top: -50px;
+    opacity: 0.7;
+    pointer-events: none; 
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(300px); 
+        opacity: 0;
+    }
+}
+
+.new-label {
+    color: red;
+    font-weight: bold;
+    margin-left: 10px;
+    display: inline-block;
+    transform: scaleX(1.2); 
+}
+
+#search-container {
+    text-align: center;
+    margin: 20px 0;
+}
+#search-input {
+    padding: 10px;
+    width: 60%;
+    font-size: 16px;
+    border: 2px solid #333;
+    border-radius: 5px;
+}
+
+
+.details-active {
+    background-color: #f0f8ff !important; 
+    border: 2px solid blue !important;
+    box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
+}
+
+.custom-tooltip {
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    z-index: 1000;
+    white-space: nowrap;
+}
+
+@media screen and (max-width: 768px) {
+    header.main-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul {
+        display: flex;
+        flex-direction: column; 
+        align-items: flex-end;  
+        width: 100%;
+        padding: 0;
+    }
+
+    nav li {
+        margin: 5px 0;
+        width: 100%;
+        text-align: right; 
+        padding-right: 20px;
+    }
+}
