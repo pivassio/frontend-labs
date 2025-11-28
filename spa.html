@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Style & Tech - SPA (Vue.js)</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <style>
+        nav a { cursor: pointer; }
+        nav a.active { font-weight: bold; color: darkred; text-decoration: underline; }
+        .fade-enter-active, .fade-leave-active { transition: opacity 0.3s; }
+        .fade-enter-from, .fade-leave-to { opacity: 0; }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+
+        <header class="main-header" ref="headerRef">
+            <h1>Інтернет-магазин "Style & Tech" [Vue Edition]</h1>
+            <nav>
+                <ul>
+                    <li><a @click.prevent="currentTab = 'home'" :class="{ active: currentTab === 'home' }">Головна</a></li>
+                    <li><a @click.prevent="currentTab = 'catalog'" :class="{ active: currentTab === 'catalog' }">Каталог</a></li>
+                    <li><a @click.prevent="currentTab = 'feedback'" :class="{ active: currentTab === 'feedback' }">Зворотній зв'язок</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main style="padding-top: 20px;">
+            <div v-if="currentTab === 'home'">
+                <article class="goal-section">
+                    <h2>Наша мета</h2>
+                    <p>Ми прагнемо забезпечити вас найкращими товарами. (Vue-версія сайту)</p>
+                    <ol type="i">
+                        <li>забезпечення широкого асортименту;</li>
+                        <li>швидка доставка;</li>
+                        <li>гарантія якості.</li>
+                    </ol>
+                </article>
+                
+                <section class="table-section">
+                    <h3>Інформація про типи товарів</h3>
+                    <table border="1" cellpadding="5">
+                        <thead>
+                            <tr><th>Категорія</th><th>Наявність</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Одяг</td><td>Є</td></tr>
+                            <tr><td>Меблі</td><td>Під замовлення</td></tr>
+                            <tr><td>Електроніка</td><td>Є</td></tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+
+            <div v-if="currentTab === 'catalog'">
+                <h2 style="text-align:center">Каталог товарів</h2>
+                
+                <div id="search-container" style="text-align: center; margin-bottom: 20px;">
+                    <input type="text" v-model="searchQuery" placeholder="🔍 Пошук товарів (Vue)..." 
+                           style="padding: 10px; width: 60%; font-size: 16px; border: 2px solid #333; border-radius: 5px;">
+                </div>
+
+                <div class="catalog-grid">
+                    <article v-for="product in filteredProducts" :key="product.id" class="product-card">
+                        <img :src="product.img" :alt="product.name" width="150">
+                        <h3>
+                            {{ product.name }}
+                            <span v-if="product.isNew" class="new-label" style="color:red; font-weight:bold"> Новинка!</span>
+                        </h3>
+                        <p>Країна: {{ product.country }}</p>
+                        <ul>
+                            <li v-for="spec in product.specs">{{ spec }}</li>
+                        </ul>
+                        <a href="#" class="catalog-link">Детальніше...</a>
+                    </article>
+                </div>
+                
+                <p v-if="filteredProducts.length === 0" style="text-align:center">Товарів не знайдено.</p>
+            </div>
+
+            <div v-if="currentTab === 'feedback'">
+                <div class="feedback-container">
+                    <form @submit.prevent="submitForm">
+                        <fieldset>
+                            <legend>Персональна інформація</legend>
+                            <p><label>Ім'я:</label><br><input type="text" v-model="form.name" required></p>
+                            <p><label>E-mail:</label><br><input type="email" v-model="form.email" required></p>
+                        </fieldset>
+
+                        <p>
+                            <label>Детально:</label><br>
+                            <textarea v-model="form.details" rows="5" cols="40"
+                                      @mouseover="showTooltip = true" 
+                                      @mouseleave="showTooltip = false"
+                                      :class="{ 'details-active': showTooltip }"></textarea>
+                        </p>
+                        <div v-if="showTooltip" class="custom-tooltip" style="background:#333; color:#fff; padding:5px; position:absolute;">
+                            Ваша думка для нас важлива!
+                        </div>
+
+                        <p><input type="submit" value="Відправити (console)"></p>
+                    </form>
+                </div>
+            </div>
+
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Інтернет-магазин "Style & Tech" (SPA Version)</p>
+        </footer>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    currentTab: 'home', 
+                    searchQuery: '',    
+                    showTooltip: false, 
+                    form: { name: '', email: '', details: '' },
+                    products: [
+                        { id: 1, name: 'Смартфон Super X', country: 'Китай', img: 'phone_placeholder.jpg', specs: ['Екран: 6.5', 'Пам\'ять: 128гб'], isNew: true },
+                        { id: 2, name: 'Крісло "Комфорт"', country: 'Україна', img: 'chair_placeholder.jpg', specs: ['Матеріал: Еко-шкіра', 'Гарантія: 1 рік'], isNew: false },
+                        { id: 3, name: 'Планшет Mega Z', country: 'Японія', img: 'phone_placeholder.jpg', specs: ['Екран: 10 дюймів', 'Гарантія: 2 роки'], isNew: false }
+                    ]
+                }
+            },
+            computed: {
+                filteredProducts() {
+                    return this.products.filter(p => 
+                        p.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+                    );
+                }
+            },
+            methods: {
+                submitForm() {
+                    alert(`Дякуємо, ${this.form.name}! Ваші дані відправлено (імітація).`);
+                },
+                startFallingImages() {
+                    const header = this.$refs.headerRef;
+                    const images = ['phone_placeholder.jpg', 'chair_placeholder.jpg'];
+                    setInterval(() => {
+                        if(this.currentTab !== 'home') return; 
+                        const img = document.createElement('img');
+                        img.src = images[Math.floor(Math.random() * images.length)];
+                        img.classList.add('falling-item'); 
+                        img.style.left = Math.random() * 90 + '%';
+                        img.style.width = '40px'; 
+                        img.style.position = 'absolute';
+                        img.style.top = '-50px';
+                        img.style.animation = 'fall 4s linear forwards';
+                        header.appendChild(img);
+                        setTimeout(() => img.remove(), 4000);
+                    }, 800);
+                }
+            },
+            mounted() {
+                this.startFallingImages();
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
